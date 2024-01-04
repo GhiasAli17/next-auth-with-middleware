@@ -1,6 +1,6 @@
 'use server'
 // without using above use server , got this error Error: Invariant: headers() expects to have requestAsyncStorage, none available.
- 
+ import { cookies } from 'next/headers';
 import { signIn } from '@/auth';
 import { AuthError } from 'next-auth';
 export async function authenticate(
@@ -10,7 +10,6 @@ export async function authenticate(
     try {
       await signIn('credentials', formData);
     } catch (error) {
-        console.log("Abc",error.type)
       if (error instanceof AuthError) {
         switch (error.type) {
           case 'CredentialsSignin':
@@ -21,4 +20,8 @@ export async function authenticate(
       }
       throw error;
     }
+  }
+
+  export async function isAuthenticated(){
+         console.log("cookie in server action",cookies().get("jwt"))
   }

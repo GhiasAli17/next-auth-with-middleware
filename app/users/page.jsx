@@ -1,11 +1,14 @@
 
-import axios from 'axios'
+import { cookies } from 'next/headers';
 import Link from 'next/link'
 import { signOut } from '@/auth';
 
- async function getData() {
+async function getData() {
 
-  const res = await fetch('http://13.40.2.20:3000/superadmin/business',{cache:'no-store'})
+  
+  const res = await fetch('http://13.40.2.20:3000/superadmin/business',{cache:'no-store',headers:{
+    'Authorization': cookies().get('jwt').value
+  }})
   // The return value is *not* serialized
   // You can return Date, Map, Set, etc.
  
@@ -19,12 +22,6 @@ import { signOut } from '@/auth';
 }
 
 const UsersPage =  async () => {
-  // const [user, setUsers] = useState([])
-  // useEffect(()=>{
-  //      axios.get('http://13.40.2.20:3000/superadmin/business').then(res=>{
-  //       setUsers(res.data)
-  //      })
-  // },)
   const users = await getData()
   return (
     <div>
@@ -38,13 +35,13 @@ const UsersPage =  async () => {
         </form>
         <ol>
            {
-            users && users.lenght && users?.map((user,ind) => <li key={ind}>
+            users && users.length && users?.map((user,ind) => <li key={ind}>
               <Link href={`/users/${user.id}`}>
               {user.businessName}
               </Link></li>)
               
            }
-           <li>abc</li>
+          
         </ol>
     </div>
   )

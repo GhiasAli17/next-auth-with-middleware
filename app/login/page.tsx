@@ -47,7 +47,7 @@ export default function LoginPage() {
               />
             </div>
           </div>
-          <button>Log In</button>
+          <button type='submit'>Log In</button>
         </div>
             {errorMessage && (
             <>

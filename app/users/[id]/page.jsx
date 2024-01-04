@@ -1,15 +1,18 @@
+'use client'
+import  Cookies from 'js-cookie'
 import React from 'react'
 
-export async function generateStaticParams() {
-    const users = await fetch('https://657ab6c31acd268f9afbae6a.mockapi.io/users',{cache:'no-store'}).then(res=>res.json())
+// export async function generateStaticParams() {
+//     const users = await fetch('https://657ab6c31acd268f9afbae6a.mockapi.io/users',{cache:'no-store'}).then(res=>res.json())
    
-    return users.map((user) => ({
-      id: user.id+"",
-    }))
-  }
+//     return users.map((user) => ({
+//       id: user.id+"",
+//     }))
+//   }
    
 
 const page = ({params}) => {
+    console.log("cookie",Cookies.get("jwt"))
     const {id} = params
   return (
     <div>Users Id: {id}</div>

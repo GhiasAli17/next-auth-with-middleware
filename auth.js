@@ -2,7 +2,7 @@
 import NextAuth from 'next-auth';
 import { authConfig } from './auth.config';
 import Credentials from 'next-auth/providers/credentials';
-
+import { cookies } from 'next/headers'
  
 async function getUser(email,password){
   try {
@@ -14,7 +14,7 @@ async function getUser(email,password){
            role:"SUPERADMIN"
         }),
         headers: {
-            "Content-type": "application/json; charset=UTF-8"
+            "Content-type": "application/json"
         }
     })
   
@@ -45,11 +45,15 @@ export const { auth, signIn, signOut } = NextAuth({
         //     .safeParse(credentials);
         //     if (parsedCredentials.success) {
             //   const { email, password } = parsedCredentials.data;
+            
               const { email, password } = credentials;
               const user = await getUser(email,password);
-              console.log("user",user)
-             if(user.jwt)
+              const cookieStore = cookies()
+              console.log(user.jwt)
+             if(user.jwt){
+              cookieStore.set("jwt",'Bearer '+user.jwt)
             return user;
+             }
             
             // }
   

@@ -49,7 +49,10 @@ export const { auth, signIn, signOut } = NextAuth({
               const { email, password } = credentials;
               const user = await getUser(email,password);
               const cookieStore = cookies()
-              console.log(user.jwt)
+
+              
+      
+             
              if(user.jwt){
               cookieStore.set("jwt",'Bearer '+user.jwt)
             return user;
